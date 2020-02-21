@@ -19,7 +19,3 @@ app.use(bodyParser.json());
 app.listen(5000, () => {
     console.log('Servidor corriendo por el puerto 5000');
 });
-
-app.get('/', function(req, res) {
-    res.send('Inicio');
-})
