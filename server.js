@@ -29,7 +29,7 @@ db.sequelize.sync();
 
 // simple route
 app.get("/", (req, res) => {
-    res.json({ message: "Welcome to Api confecciones app udeaweb application.", api: "Realizada por " });
+    res.json({ message: "Welcome to Api confecciones app udeaweb application." });
 });
 
 // routes
