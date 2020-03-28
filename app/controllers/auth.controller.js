@@ -13,7 +13,8 @@ exports.signup = (req, res) => {
     User.create({
             username: req.body.username,
             email: req.body.email,
-            password: bcrypt.hashSync(req.body.password, 8)
+            password: bcrypt.hashSync(req.body.password, 8),
+            enable: req.body.enable
         })
         .then(user => {
             if (req.body.roles) {
@@ -56,6 +57,13 @@ exports.signin = (req, res) => {
                 user.password
             );
 
+            if (user.enable == 0) {
+                return res.status(401).send({
+                    accessToken: null,
+                    message: "User disable"
+                });
+            }
+
             if (!passwordIsValid) {
                 return res.status(401).send({
                     accessToken: null,
@@ -76,6 +84,7 @@ exports.signin = (req, res) => {
                     id: user.id,
                     username: user.username,
                     email: user.email,
+                    enable: user.enable,
                     roles: authorities,
                     accessToken: token
                 });
@@ -85,3 +94,23 @@ exports.signin = (req, res) => {
             res.status(500).send({ message: err.message });
         });
 };
+
+exports.editUser = (req, res) => {
+    User.update({
+            username: req.body.username,
+            email: req.body.email,
+            password: bcrypt.hashSync(req.body.password, 8),
+            enable: req.body.enable
+        }, {
+            where: {
+                id: req.body.id,
+            }
+        })
+        .then(user => {
+            return res.send({ message: "User was update successfully!" });
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+
+}

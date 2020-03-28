@@ -18,8 +18,8 @@ module.exports = function(app) {
     );
 
     app.get(
-        "/api/test/mod", [authJwt.verifyToken, authJwt.isModerator],
-        controller.moderatorBoard
+        "/api/test/mod", [authJwt.verifyToken, authJwt.isTercero],
+        controller.terceroBoard
     );
 
     app.get(
