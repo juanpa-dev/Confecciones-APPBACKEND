@@ -9,7 +9,7 @@ const config = {
     application: {
         cors: {
             server: [{
-                origin: "localhost:3000", //servidor que deseas que consuma o (*) en caso que sea acceso libre
+                origin: "http://localhost:3000/api/auth/", //servidor que deseas que consuma o (*) en caso que sea acceso libre
                 credentials: true
             }]
         }
@@ -19,6 +19,7 @@ const config = {
 app.use(cors(
     config.application.cors.server
 ));
+
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());

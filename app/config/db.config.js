@@ -1,8 +1,8 @@
 module.exports = {
-    HOST: "146.148.41.99",
-    USER: "root",
+    HOST: "confeccionesapp.czwwvekl5msz.us-east-1.rds.amazonaws.com",
+    USER: "admin",
     PASSWORD: "rootconfeccionesapp",
-    DB: "CONFECCIONESAPP",
+    DB: "confeccionesappingweb",
     dialect: "mysql",
     pool: {
         max: 5,
