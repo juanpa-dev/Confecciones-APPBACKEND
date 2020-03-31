@@ -4,11 +4,21 @@ const cors = require("cors");
 
 const app = express();
 
-var corsOptions = {
-    origin: " https://confeccionesapp-back.herokuapp.com/"
-};
 
-app.use(cors(corsOptions));
+const config = {
+    application: {
+        cors: {
+            server: [{
+                origin: "localhost:3000", //servidor que deseas que consuma o (*) en caso que sea acceso libre
+                credentials: true
+            }]
+        }
+    }
+}
+
+app.use(cors(
+    config.application.cors.server
+));
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
