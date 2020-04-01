@@ -9,7 +9,7 @@ const config = {
     application: {
         cors: {
             server: [{
-                origin: "http://localhost:3000/api/auth/", //servidor que deseas que consuma o (*) en caso que sea acceso libre
+                origin: "https://confeccionesapp-back.herokuapp.com", //servidor que deseas que consuma o (*) en caso que sea acceso libre
                 credentials: true
             }]
         }
