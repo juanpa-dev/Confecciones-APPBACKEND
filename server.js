@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const sequelize = require("sequelize");
+
 
 const app = express();
 
@@ -9,7 +11,7 @@ const config = {
     application: {
         cors: {
             server: [{
-                origin: "https://confeccionesapp-back.herokuapp.com", //servidor que deseas que consuma o (*) en caso que sea acceso libre
+                origin: "localhost:3000", //servidor que deseas que consuma o (*) en caso que sea acceso libre
                 credentials: true
             }]
         }
@@ -32,6 +34,11 @@ const db = require("./app/models");
 const Role = db.role;
 
 db.sequelize.sync();
+
+// db.sequelize.sync({ force: true }).then(() => {
+//     console.log('Drop and Resync Db');
+//     initial();
+// });
 
 // simple route
 app.get("/", (req, res) => {
