@@ -1,5 +1,5 @@
-const { verifySignUp } = require("../middleware");
-const controller = require("../controllers/auth.controller");
+const { authJwt } = require("../middleware");
+const controller = require("../controllers/user.controller");
 
 module.exports = function(app) {
     app.use(function(req, res, next) {
@@ -10,16 +10,20 @@ module.exports = function(app) {
         next();
     });
 
-    app.post(
-        "/api/auth/signup", [
-            verifySignUp.checkDuplicateUsernameOrEmail,
-            verifySignUp.checkRolesExisted
-        ],
-        controller.signup
+    app.get("/api/confeccionesapp/all", controller.allAccess);
+
+    app.get(
+        "/api/confeccionesapp/user", [authJwt.verifyToken],
+        controller.userBoard
     );
 
-    app.post("/api/auth/signin", controller.signin);
+    app.get(
+        "/api/confeccionesapp/mod", [authJwt.verifyToken, authJwt.isTercero],
+        controller.terceroBoard
+    );
 
-    app.put("/api/user/edituser", controller.editUser);
-
-}
+    app.get(
+        "/api/confeccionesapp/admin", [authJwt.verifyToken, authJwt.isAdmin],
+        controller.adminBoard
+    );
+};
