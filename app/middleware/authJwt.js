@@ -86,4 +86,5 @@ const authJwt = {
     isTercero: isTercero,
     isTerceroOrAdmin: isTerceroOrAdmin
 };
+
 module.exports = authJwt;
