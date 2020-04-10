@@ -27,6 +27,7 @@ db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.producto = require("../models/producto.model.js")(sequelize, Sequelize);
 db.venta = require("../models/venta.model.js")(sequelize, Sequelize);
 db.almacen = require("../models/almacen.model.js")(sequelize, Sequelize);
+db.factura = require("../models/factura.model.js")(sequelize, Sequelize);
 
 
 db.role.belongsToMany(db.user, {
@@ -49,23 +50,34 @@ db.producto.belongsToMany(db.venta, {
     foreignKey: "productoId",
     otherKey: "ventaId"
 });
+
 db.venta.belongsToMany(db.producto, {
     through: "venta_producto",
     foreignKey: "ventaId",
     otherKey: "productoId"
 });
 
+db.user.hasMany(db.venta, {
+    foreignKey: {
+        name: 'user',
+        allowNull: false,
+    }
+});
+
 // almacens
-db.almacen.hasMany(db.venta, { 
+db.almacen.hasMany(db.venta, {
+    foreignKey: {
+        name: 'almacen',
+        allowNull: false,
+    }
+});
+
+db.venta.hasMany(db.factura, {
     foreignKey: {
         name: 'venta',
         allowNull: false,
     }
 });
-
-
-
-
 
 
 module.exports = db;

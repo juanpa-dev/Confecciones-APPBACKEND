@@ -1,29 +1,33 @@
 {
-    "name": "confecciones-appbackend",
-    "version": "1.0.0",
-    "description": "App confecciones UdeA ingenieria web",
-    "main": "server.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node server.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Ingenieria-WEB20201/Confecciones-APPBACKEND.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/Ingenieria-WEB20201/Confecciones-APPBACKEND/issues"
-    },
-    "homepage": "https://github.com/Ingenieria-WEB20201/Confecciones-APPBACKEND#readme",
-    "dependencies": {
-        "bcryptjs": "^2.4.3",
-        "body-parser": "^1.19.0",
-        "cors": "^2.8.5",
-        "express": "^4.17.1",
-        "jsonwebtoken": "^8.5.1",
-        "mysql2": "^2.1.0",
-        "sequelize": "^5.21.5"
-    }
+  "name": "confecciones-appbackend",
+  "version": "1.0.0",
+  "description": "App confecciones UdeA ingenieria web",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ingenieria-WEB20201/Confecciones-APPBACKEND.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ingenieria-WEB20201/Confecciones-APPBACKEND/issues"
+  },
+  "homepage": "https://github.com/Ingenieria-WEB20201/Confecciones-APPBACKEND#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.5",
+    "sequelize-cli": "^5.5.1"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^5.5.1"
+  }
 }
