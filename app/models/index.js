@@ -26,8 +26,11 @@ db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.producto = require("../models/producto.model.js")(sequelize, Sequelize);
 db.venta = require("../models/venta.model.js")(sequelize, Sequelize);
+db.compra = require("../models/compra.model.js")(sequelize, Sequelize);
 db.almacen = require("../models/almacen.model.js")(sequelize, Sequelize);
-db.factura = require("../models/factura.model.js")(sequelize, Sequelize);
+db.itemCompra = require("../models/itemcompra.model.js")(sequelize, Sequelize);
+db.itemVenta = require("../models/itemventa.model.js")(sequelize, Sequelize);
+
 
 
 db.role.belongsToMany(db.user, {
@@ -43,23 +46,31 @@ db.user.belongsToMany(db.role, {
 
 db.ROLES = ["user", "admin", "tercero"];
 
-// ventas
-
-db.producto.belongsToMany(db.venta, {
-    through: "venta_producto",
-    foreignKey: "productoId",
-    otherKey: "ventaId"
-});
-
-db.venta.belongsToMany(db.producto, {
-    through: "venta_producto",
-    foreignKey: "ventaId",
-    otherKey: "productoId"
-});
 
 db.user.hasMany(db.venta, {
     foreignKey: {
         name: 'user',
+        allowNull: false,
+    }
+});
+
+db.user.hasMany(db.compra, {
+    foreignKey: {
+        name: 'user',
+        allowNull: false,
+    }
+});
+
+db.venta.hasMany(db.itemVenta, {
+    foreignKey: {
+        name: 'venta',
+        allowNull: false,
+    }
+});
+
+db.compra.hasMany(db.itemCompra, {
+    foreignKey: {
+        name: 'compra',
         allowNull: false,
     }
 });
@@ -72,9 +83,24 @@ db.almacen.hasMany(db.venta, {
     }
 });
 
-db.venta.hasMany(db.factura, {
+db.user.hasOne(db.almacen, {
     foreignKey: {
-        name: 'venta',
+        name: 'user',
+        allowNull: false,
+    }
+});
+
+
+db.producto.hasMany(db.itemVenta, {
+    foreignKey: {
+        name: 'producto',
+        allowNull: false,
+    }
+});
+
+db.producto.hasMany(db.itemCompra, {
+    foreignKey: {
+        name: 'producto',
         allowNull: false,
     }
 });

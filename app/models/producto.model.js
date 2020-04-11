@@ -7,20 +7,23 @@ module.exports = (sequelize, Sequelize) => {
         referencia: {
             type: Sequelize.STRING
         },
-        name: {
+        nombre: {
             type: Sequelize.STRING
         },
-        brand: {
+        marca: {
             type: Sequelize.STRING
         },
-        model: {
+        modelo: {
             type: Sequelize.STRING
         },
-        location: {
+        estado: {
             type: Sequelize.STRING
         },
-        state: {
-            type: Sequelize.STRING
+        cantidadDisponible: {
+            type: Sequelize.INTEGER
+        },
+        precioVenta: {
+            type: Sequelize.INTEGER
         }
 
     });

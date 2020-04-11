@@ -1,17 +1,18 @@
 module.exports = (sequelize, Sequelize) => {
-    const Factura = sequelize.define("factura", {
+    const Compra = sequelize.define("compra", {
         id: {
             type: Sequelize.INTEGER(5),
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
         },
-        total: {
+        neto: {
             type: Sequelize.INTEGER
         },
-        tipoFactura: {
-            type: Sequelize.ENUM('venta', 'compra') },
+        fecha: {
+            type: Sequelize.DATE
+        }
     });
 
-    return Factura;
+    return Compra;
 };

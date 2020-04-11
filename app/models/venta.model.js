@@ -6,17 +6,11 @@ module.exports = (sequelize, Sequelize) => {
             autoIncrement: true,
             primaryKey: true,
         },
-        date: {
-            type: Sequelize.DATE
-        },
-        cantidad: {
+        neto: {
             type: Sequelize.INTEGER
         },
-        precio: {
-            type: Sequelize.FLOAT
-        },
-        netoParcial: {
-            type: Sequelize.FLOAT
+        fecha: {
+            type: Sequelize.DATE
         }
     });
 
