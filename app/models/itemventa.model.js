@@ -1,11 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
     const ItemVenta = sequelize.define("itemVenta", {
-        id: {
-            type: Sequelize.INTEGER(5),
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true
-        },
         precioUnitario: {
             type: Sequelize.FLOAT
         },
@@ -14,6 +8,14 @@ module.exports = (sequelize, Sequelize) => {
         },
         precioNeto: {
             type: Sequelize.FLOAT
+        },
+        ventaid: {
+            type: Sequelize.INTEGER,
+            primaryKey: true
+        },
+        productoid: {
+            type: Sequelize.INTEGER,
+            primaryKey: true
         }
     });
 

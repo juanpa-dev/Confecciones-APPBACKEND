@@ -1,11 +1,20 @@
 module.exports = (sequelize, Sequelize) => {
     const Almacen = sequelize.define("almacen", {
-        name: {
-            type: Sequelize.STRING
+        id: {
+            type: Sequelize.INTEGER(5),
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
         },
-        administrador: {
-            type: Sequelize.STRING
-        }
+        name: {
+            type: Sequelize.STRING,
+            allowNull: false,
+        },
+        // userid: {
+        //     type: Sequelize.INTEGER,
+        //     primaryKey: true,
+        //     allowNull: false,
+        // }
     });
 
     return Almacen;

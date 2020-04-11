@@ -32,7 +32,7 @@ db.itemCompra = require("../models/itemcompra.model.js")(sequelize, Sequelize);
 db.itemVenta = require("../models/itemventa.model.js")(sequelize, Sequelize);
 
 
-
+//Role -> user_roles <- User
 db.role.belongsToMany(db.user, {
     through: "user_roles",
     foreignKey: "roleId",
@@ -46,64 +46,88 @@ db.user.belongsToMany(db.role, {
 
 db.ROLES = ["user", "admin", "tercero"];
 
-
+//User -> venta
 db.user.hasMany(db.venta, {
     foreignKey: {
-        name: 'user',
+        name: 'userid',
         allowNull: false,
     }
 });
+
+db.venta.belongsTo(db.user, {
+    foreignKey: 'userid'
+});
+
+
+//User -> compra
 
 db.user.hasMany(db.compra, {
     foreignKey: {
-        name: 'user',
+        name: 'userid',
         allowNull: false,
     }
 });
 
-db.venta.hasMany(db.itemVenta, {
-    foreignKey: {
-        name: 'venta',
-        allowNull: false,
-    }
+db.compra.belongsTo(db.user, {
+    foreignKey: 'userid'
 });
 
-db.compra.hasMany(db.itemCompra, {
-    foreignKey: {
-        name: 'compra',
-        allowNull: false,
-    }
+
+
+//venta -> itemVenta
+
+db.venta.belongsToMany(db.producto, {
+    through: db.itemVenta,
+    foreignKey: { name:'ventaid', allowNull: false },
+    otherKey: "productoid"
+
 });
 
-// almacens
+db.producto.belongsToMany(db.venta, {
+    through: db.itemVenta,
+    foreignKey: { name:'productoid', allowNull: false },
+    otherKey: "ventaid"
+})
+
+//producto -> itemVenta
+
+db.compra.belongsToMany(db.producto, {
+    through: db.itemCompra,
+    foreignKey: { name: 'compraid', allowNull: false },
+    otherKey: "productoid"
+});
+
+db.producto.belongsToMany(db.compra, {
+    through: db.itemCompra,
+    foreignKey: { name: 'productoid',allowNull: false },
+    otherKey: 'compraid'
+})
+
+// almacen -> venta
 db.almacen.hasMany(db.venta, {
     foreignKey: {
-        name: 'almacen',
-        allowNull: false,
+        name: 'almacenid',
+        allowNull: true,
     }
 });
 
-db.user.hasOne(db.almacen, {
+db.venta.belongsTo(db.almacen, {
     foreignKey: {
-        name: 'user',
-        allowNull: false,
+        name: 'almacenid',
+        allowNull: false
     }
 });
+//almacen -> user
 
-
-db.producto.hasMany(db.itemVenta, {
+db.almacen.belongsTo(db.user, {
     foreignKey: {
-        name: 'producto',
-        allowNull: false,
+        name:'userid',
+        allowNull: false
     }
 });
 
-db.producto.hasMany(db.itemCompra, {
-    foreignKey: {
-        name: 'producto',
-        allowNull: false,
-    }
-});
+
+
 
 
 module.exports = db;
