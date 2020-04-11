@@ -8,7 +8,8 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING
         },
         nombre: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false,
         },
         marca: {
             type: Sequelize.STRING
@@ -20,10 +21,12 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING
         },
         cantidadDisponible: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
+            allowNull: false,
         },
         precioVenta: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
+            allowNull: false,
         }
 
     });

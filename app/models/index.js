@@ -107,7 +107,7 @@ db.producto.belongsToMany(db.compra, {
 db.almacen.hasMany(db.venta, {
     foreignKey: {
         name: 'almacenid',
-        allowNull: true,
+        allowNull: false,
     }
 });
 
@@ -126,8 +126,20 @@ db.almacen.belongsTo(db.user, {
     }
 });
 
+//producto -> almacen
 
 
+db.producto.belongsToMany(db.almacen, {
+    through: 'producto_almacen',
+    foreignKey: { name: 'prodcutoid', allowNull: false },
+    otherKey: "almacenid"
+});
+
+db.almacen.belongsToMany(db.producto, {
+    through: 'producto_almacen',
+    foreignKey: { name: 'almacenid',allowNull: false },
+    otherKey: 'productoid'
+})
 
 
 module.exports = db;
