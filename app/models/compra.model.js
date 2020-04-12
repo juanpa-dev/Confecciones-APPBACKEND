@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
         },
         neto: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.FLOAT,
             allowNull: false,
         },
         fecha: {
