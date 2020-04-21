@@ -16,5 +16,5 @@ module.exports = function(app) {
     app.get("/api/compra/user/:user", controller.findByUser);
     app.get("/api/compra/producto/:id", controller.findByProducto);
     app.get("/api/compra", controller.findAll);
-    app.update("/api/compra", controller.update);
+    app.put("/api/compra", controller.update);
 }
