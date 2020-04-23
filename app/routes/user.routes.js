@@ -18,7 +18,7 @@ module.exports = function(app) {
     );
 
     app.get(
-        "/api/confeccionesapp/mod", [authJwt.verifyToken, authJwt.isTercero],
+        "/api/confeccionesapp/tercero", [authJwt.verifyToken, authJwt.isTercero],
         controller.terceroBoard
     );
 
