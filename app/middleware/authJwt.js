@@ -58,11 +58,28 @@ isTercero = (req, res, next) => {
     });
 };
 
-isTerceroOrAdmin = (req, res, next) => {
+isUser = (req, res, next) => {
     User.findByPk(req.userId).then(user => {
         user.getRoles().then(roles => {
             for (let i = 0; i < roles.length; i++) {
-                if (roles[i].name === "tercero") {
+                if (roles[i].name === "user") {
+                    next();
+                    return;
+                }
+            }
+
+            res.status(403).send({
+                message: "Require User Role!"
+            });
+        });
+    });
+};
+
+isUserOrAdmin = (req, res, next) => {
+    User.findByPk(req.userId).then(user => {
+        user.getRoles().then(roles => {
+            for (let i = 0; i < roles.length; i++) {
+                if (roles[i].name === "user") {
                     next();
                     return;
                 }
@@ -74,7 +91,7 @@ isTerceroOrAdmin = (req, res, next) => {
             }
 
             res.status(403).send({
-                message: "Require Tercero or Admin Role!"
+                message: "Require user or Admin Role!"
             });
         });
     });
@@ -84,6 +101,8 @@ const authJwt = {
     verifyToken: verifyToken,
     isAdmin: isAdmin,
     isTercero: isTercero,
-    isTerceroOrAdmin: isTerceroOrAdmin
+    isUserOrAdmin: isUserOrAdmin,
+    isUser: isUser
 };
+
 module.exports = authJwt;
