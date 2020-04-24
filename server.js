@@ -11,7 +11,7 @@ const config = {
     application: {
         cors: {
             server: [{
-                origin: "localhost:3000", //servidor que deseas que consuma o (*) en caso que sea acceso libre
+                origin: "https://confeccionesapp-back.herokuapp.com", //servidor que deseas que consuma o (*) en caso que sea acceso libre
                 credentials: true
             }]
         }
@@ -40,6 +40,7 @@ db.sequelize.sync();
 //     initial();
 // });
 
+
 // simple route
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to Api confecciones app udeaweb application." });
@@ -55,6 +56,9 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
+
+
+initial();
 
 function initial() {
     Role.create({
