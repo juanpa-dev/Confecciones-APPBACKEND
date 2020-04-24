@@ -15,7 +15,7 @@ module.exports = function(app) {
     app.post(
         "/api/auth/signup", [
             verifySignUp.checkDuplicateUsernameOrEmail,
-            verifySignUp.checkRolesExisted, authJwt.verifyToken, authJwt.isAdmin
+            verifySignUp.checkRolesExisted
         ],
         controller.signup
     );

@@ -58,7 +58,6 @@ app.listen(PORT, () => {
 });
 
 
-initial();
 
 function initial() {
     Role.create({
