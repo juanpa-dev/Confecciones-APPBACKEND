@@ -11,8 +11,8 @@ module.exports = function(app) {
 
     app.post("/api/venta", controller.create);
     //app.delete("/api/compra/:id", controller.delete);
-    //app.get("/api/compra/fecha/:fecha", controller.findByFecha);
-    //app.get("/api/compra/id/:id", controller.findById);
+    app.get("/api/venta/fecha/:fecha", controller.findByFecha);
+    app.get("/api/venta/id/:id", controller.findById);
     //app.get("/api/compra/user/:user", controller.findByUser);
     //app.get("/api/compra/producto/:id", controller.findByProducto);
     //app.get("/api/compra", controller.findAll);
