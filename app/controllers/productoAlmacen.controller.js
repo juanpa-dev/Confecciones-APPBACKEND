@@ -15,9 +15,7 @@ exports.create = (req, res) => {
 
 exports.findProducByAlm = (req, res) => {
     let promesas = []
-    let productos = []
     let cantidades = []
-    let almacenid = req.params.id
     console.log("params", req.params.id)
     productoAlmacen.findAll({
         where: { almacenid: req.params.id }
@@ -34,17 +32,13 @@ exports.findProducByAlm = (req, res) => {
             Promise.all(promesas)
                 //Actualizar el campo cantidad de acuerdo al almacen.
                 .then((resultado) => {
-                    let i=0;
+                    let i = 0;
                     let cantActual;
                     cantActual = resultado.map(producto => {
-                        //producto = producto.dataValues
-                        console.log("antes", producto)
-                        //producto.cantidadDisponible = cantidades[i];
-                        console.log("ahora", producto)
+                        producto[0].cantidadDisponible = cantidades[i];
                         i++;
                         return producto
                     });
-                    console.log("total", cantActual)                    
                     return res.json(cantActual);
                 })
                 .catch(err => {
