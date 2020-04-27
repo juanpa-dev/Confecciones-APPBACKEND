@@ -10,8 +10,10 @@ module.exports = function(app) {
     });
 
     app.post("/api/compra", controller.create);
-    app.delete("/api/compra/:id", controller.delete);
-    app.get("/api/compra/fecha/:fecha", controller.findByFecha);
+    app.delete("/api/compra/id/:id", controller.delete);
+    app.delete("/api/compra/item", controller.deleteItem);
+    app.delete("/api/compra/", controller.deleteAll);
+    app.get("/api/compra/fecha/", controller.findByFecha);
     app.get("/api/compra/id/:id", controller.findById);
     app.get("/api/compra/user/:user", controller.findByUser);
     app.get("/api/compra/producto/:id", controller.findByProducto);
