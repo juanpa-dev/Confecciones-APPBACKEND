@@ -10,8 +10,7 @@ module.exports = function(app) {
     });
 
     app.post("/api/venta", controller.create);
-    app.get("/api/venta/fecha/:fecha", controller.findByFecha);
-    app.get("/api/venta/id/:id", controller.findById);
+    app.get("/api/venta/:id", controller.findById);
     app.get("/api/venta/fecha", controller.findByFecha);
 
 }

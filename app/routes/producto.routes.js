@@ -9,8 +9,8 @@ module.exports = function(app) {
         next();
     });
 
-    app.post("/api/producto", controller.create);
+    app.post("/api/producto", controller.create); 
     app.get("/api/productos", controller.findAll);
-    app.put("/api/producto/referencia", controller.update);
-    app.get("/api/producto/referencia/:referencia", controller.findById);
+    app.put("/api/producto", controller.update);
+    app.get("/api/producto/:referencia", controller.findById);
 }
