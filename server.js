@@ -11,7 +11,8 @@ const config = {
     application: {
         cors: {
             server: [{
-                origin: "http://localhost:3000", //servidor que deseas que consuma o (*) en caso que sea acceso libre
+
+                origin: "https://confeccionesapp-back.herokuapp.com", //servidor que deseas que consuma o (*) en caso que sea acceso libre
                 credentials: true
             }]
         }
@@ -35,10 +36,7 @@ const Role = db.role;
 
 db.sequelize.sync();
 
-// db.sequelize.sync({ force: true }).then(() => {
-//     console.log('Drop and Resync Db');
-//     initial();
-// });
+
 
 
 // simple route
@@ -56,7 +54,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
-
 
 
 function initial() {
