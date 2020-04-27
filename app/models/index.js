@@ -30,6 +30,8 @@ db.compra = require("../models/compra.model.js")(sequelize, Sequelize);
 db.almacen = require("../models/almacen.model.js")(sequelize, Sequelize);
 db.itemCompra = require("../models/itemcompra.model.js")(sequelize, Sequelize);
 db.itemVenta = require("../models/itemventa.model.js")(sequelize, Sequelize);
+db.productoAlmacen = require("../models/productoAlmacen.model.js")(sequelize, Sequelize);
+
 
 
 //Role -> user_roles <- User
@@ -130,14 +132,14 @@ db.almacen.belongsTo(db.user, {
 
 
 db.producto.belongsToMany(db.almacen, {
-    through: 'producto_almacen',
+    through: db.productoAlmacen,
     foreignKey: { name: 'prodcutoid', allowNull: false },
     otherKey: "almacenid"
 });
 
 db.almacen.belongsToMany(db.producto, {
-    through: 'producto_almacen',
-    foreignKey: { name: 'almacenid',allowNull: false },
+    through: db.productoAlmacen,
+    foreignKey: { name: 'almacenid', allowNull: false },
     otherKey: 'productoid'
 })
 

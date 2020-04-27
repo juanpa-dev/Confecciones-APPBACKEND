@@ -2,7 +2,7 @@ module.exports = (sequelize, Sequelize) => {
     const Producto = sequelize.define("producto", {
         referencia: {
             type: Sequelize.STRING,
-            primaryKey: true
+            primaryKey: true,
         },
         nombre: {
             type: Sequelize.STRING,
@@ -26,7 +26,9 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false,
         }
 
-    });
+    }, 
+    { indexes: [{unique: true, fields: ["referencia"]}]});
+
 
     return Producto;
 };
