@@ -144,4 +144,5 @@ db.almacen.belongsToMany(db.producto, {
 })
 
 
+
 module.exports = db;
