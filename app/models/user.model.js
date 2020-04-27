@@ -15,6 +15,10 @@ module.exports = (sequelize, Sequelize) => {
         enable: {
             type: Sequelize.BOOLEAN,
             allowNull: false,
+        },
+        avatar: {
+            type: Sequelize.STRING,
+            allowNull: false,
         }
     });
 
