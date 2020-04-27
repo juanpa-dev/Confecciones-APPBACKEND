@@ -36,7 +36,7 @@ exports.update = (req, res) => {
             cantidadDisponible: p.cantidadDisponible,
             precioVenta: p.precioVenta
         },
-        { where: { referencia: req.params.referencia } }
+        { where: { referencia: p.referencia } }
     )
         .then(producto => {
             return res.json(producto);
