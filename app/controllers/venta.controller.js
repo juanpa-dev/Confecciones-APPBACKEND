@@ -1,12 +1,13 @@
 const db = require("../models");
 const venta = db.venta;
 const ItemVenta = db.itemVenta;
+const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
-    const { neto, fecha, userid, almacenid } = req.body
+    const { referencia, neto: neto, fecha, userid, almacenid } = req.body
     let promesas = []
 
-    venta.create({ neto: neto, fecha: fecha, userid: userid, almacenid: almacenid })
+    venta.create({ referencia: referencia, neto: neto, fecha: fecha, userid: userid, almacenid: almacenid })
         .then(venta => {
             let itemVenta = req.body.itemVenta
             itemVenta.forEach(item => {
@@ -48,18 +49,20 @@ exports.findById = (req, res) => {
 }
 
 exports.findByFecha = (req, res) => {
-    let promise = []
+    let startDate = req.body.startDate;
+    let endDate = req.body.endDate;
     venta.findAll({
-        fecha: {
-            $between: ["2020-04-26T01:27:24.000Z", "2020-04-26T01:27:24.000Z"]
+        where: {
+            fecha: {
+                [Op.between]: [startDate, endDate]
+            }
         }
-    })
-        .then(venta => {
 
-            return res.json(venta)
+    })
+        .then(ventas => {
+            return res.json(ventas)
         })
         .catch(err => {
             return res.status(500).send({ message: err.message })
         })
-
 }

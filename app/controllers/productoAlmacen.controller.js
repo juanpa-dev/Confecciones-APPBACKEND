@@ -53,19 +53,19 @@ exports.findProducByAlm = (req, res) => {
 
 
 exports.update = (req, res) => {
-    p = req.body;
-    producto.update(
+    productoAlmacen.update(
         {
-            nombre: p.nombre,
-            marca: p.marca,
-            modelo: p.modelo,
-            cantidadDisponible: p.cantidadDisponible,
-            precioVenta: p.precioVenta
+            cantidad: req.body.cantidad,
         },
-        { where: { referencia: req.params.referencia } }
+        {
+            where: {
+                almacenid: req.body.almacenid,
+                productoid: req.body.productoid
+            }
+        }
     )
-        .then(producto => {
-            return res.json(producto);
+        .then(producto_almacen => {
+            return res.json(producto_almacen);
         })
         .catch(err => {
             return res.status(500).send({ message: err.message })
@@ -73,7 +73,7 @@ exports.update = (req, res) => {
 }
 
 exports.findAll = (req, res) => {
-    producto.findAll({
+    productoAlmacen.findAll({
     })
         .then(productos => {
             return res.json(productos)

@@ -11,6 +11,8 @@ module.exports = function(app) {
 
     app.get("/api/almacen/:id", controller.findProducByAlm);
     app.post("/api/almacen", controller.create);
+    app.put("/api/almacen", controller.update);
+
 
 
 }
