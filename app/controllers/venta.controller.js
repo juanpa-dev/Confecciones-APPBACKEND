@@ -67,9 +67,6 @@ exports.findByAlmacen = async (req, res) => {
             where: { almacenid: req.params.id }
         })
 
-        console.log("ventas", ventas);
-        //        ventas = ventas.dataValues;
-        //Items de cada venta
         ventas.forEach(result => {
             venta = result.dataValues;
             pv = ItemVenta.findAll({
@@ -81,17 +78,13 @@ exports.findByAlmacen = async (req, res) => {
         items = await Promise.all(promesasItems);
 
         let i = 0;
+        //A cada venta le agrega su lista de items
         resultado = ventas.map(venta => {
-            item = items[i];
-            item = item[0].dataValues;
-            venta.itemVenta = item;
-            console.log("items ***", item)
+            itemsVenta = items[i];
+            venta.dataValues.itemVenta = itemsVenta;
             i++;
             return venta;
         });
-
-        console.log("ventas co", resultado)
-
         return res.json(resultado);
     } catch (err) {
         return res.status(500).send({ message: err.message });
