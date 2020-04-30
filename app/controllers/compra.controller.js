@@ -24,6 +24,13 @@ exports.create = async (req, res) => {
             var productoAlmacen = await ProductoAlmacen.findOne({
                 where: { almacenid: req.body.almacenid, productoid: producto.referencia }
             })
+            if (!productoAlmacen) {
+                productoAlmacen = await ProductoAlmacen.create({
+                    almacenid: req.body.almacenid,
+                    productoid: producto.referencia,
+                    cantidad: 0
+                })
+            }
             producto.cantidadDisponible = producto.cantidadDisponible + itemCompra[i].cantidad
             producto = await producto.save()
             productoAlmacen.cantidad = productoAlmacen.cantidad + itemCompra[i].cantidad
@@ -107,14 +114,17 @@ exports.deleteAll = async (req, res) => {
             var producto = await Producto.findOne({
                 where: { referencia: itemCompra[i].productoid }
             })
-            var productoAlmacen = await ProductoAlmacen.findOne({
-                where: { almacenid: req.body.almacenid, productoid: producto.referencia }
+            var productoAlmacen = await ProductoAlmacen.findAll({
+                where: { productoid: producto.referencia }
             })
             producto.cantidadDisponible = 0
             producto.precioVenta = 0
             producto = await producto.save()
-            productoAlmacen.cantidad = 0
-            productoAlmacen = await productoAlmacen.save()
+            for (let y in productoAlmacen) {
+                productoAlmacen[y].cantidad = 0
+                productoAlmacen[y] = await productoAlmacen[y].save()
+            }
+
 
         }
         await Compra.destroy({ truncate: { cascade: true } })
