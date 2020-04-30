@@ -119,6 +119,7 @@ Se consume con metodo GET con la siguiente url
 Se consume con metodo PUT enviando en el body el siguente json
 ```json
 {
+    "id": 81,
     "neto":400,
     "fecha": "07/10/1999",
     "userid": 1,
@@ -127,14 +128,12 @@ Se consume con metodo PUT enviando en el body el siguente json
         {
             "precioUnitario": 5,
             "cantidad": 20,
-            "precioNeto": 200,
-            "productoid": "hola"
+            "precioNeto": 200
         },
         {
             "precioUnitario": 5,
             "cantidad": 20,
-            "precioNeto": 200,
-            "productoid": "que"
+            "precioNeto": 200
         }
     ]
 }
