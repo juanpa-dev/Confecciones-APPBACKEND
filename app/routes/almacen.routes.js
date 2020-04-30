@@ -10,4 +10,10 @@ module.exports = function(app) {
     });
 
     app.post("/api/almac", controller.create);
+    app.get("/api/almacen/usuario/:id", controller.findByUserid);
+    app.get("/api/almac/:id", controller.findById);
+    app.get("/api/almac", controller.findAll);
+
+
+
 }
