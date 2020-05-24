@@ -3,7 +3,15 @@ const producto = db.producto;
 
 exports.create = (req, res) => {
     const { referencia, nombre, marca, modelo, estado, cantidadDisponible, precioVenta } = req.body
-    producto.create({ referencia: referencia.toUpperCase(), nombre: nombre, marca: marca, modelo: modelo, estado: estado, cantidadDisponible: cantidadDisponible, precioVenta: precioVenta })
+    producto.create({
+            referencia: referencia.toUpperCase(),
+            nombre: nombre,
+            marca: marca,
+            modelo: modelo,
+            estado: estado,
+            cantidadDisponible: cantidadDisponible,
+            precioVenta: precioVenta
+        })
         .then(producto => {
             return res.json(producto);
         })
@@ -15,8 +23,8 @@ exports.create = (req, res) => {
 exports.findById = (req, res) => {
     let id = req.params.referencia
     producto.findAll({
-        where: { referencia: id.toUpperCase() }
-    })
+            where: { referencia: id.toUpperCase() }
+        })
         .then(producto => {
             return res.json(producto)
         })
@@ -28,16 +36,13 @@ exports.findById = (req, res) => {
 
 exports.update = (req, res) => {
     p = req.body;
-    producto.update(
-        {
+    producto.update({
             nombre: p.nombre,
             marca: p.marca,
             modelo: p.modelo,
             cantidadDisponible: p.cantidadDisponible,
             precioVenta: p.precioVenta
-        },
-        { where: { referencia: p.referencia } }
-    )
+        }, { where: { referencia: p.referencia } })
         .then(producto => {
             return res.json(producto);
         })
@@ -47,8 +52,7 @@ exports.update = (req, res) => {
 }
 
 exports.findAll = (req, res) => {
-    producto.findAll({
-    })
+    producto.findAll({})
         .then(productos => {
             return res.json(productos)
         })
@@ -56,8 +60,3 @@ exports.findAll = (req, res) => {
             return res.status(500).send({ message: err.message })
         });
 }
-
-
-
-
-

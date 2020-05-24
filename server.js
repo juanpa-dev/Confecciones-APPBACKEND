@@ -11,8 +11,7 @@ const config = {
     application: {
         cors: {
             server: [{
-
-                origin: "https://confeccionesapp-back.herokuapp.com", //servidor que deseas que consuma o (*) en caso que sea acceso libre
+                origin: "http://localhost:3000", //servidor que deseas que consuma o (*) en caso que sea acceso libre
                 credentials: true
             }]
         }
@@ -35,8 +34,6 @@ const db = require("./app/models");
 const Role = db.role;
 
 db.sequelize.sync();
-
-
 
 
 // simple route
