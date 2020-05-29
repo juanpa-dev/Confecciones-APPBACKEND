@@ -48,6 +48,8 @@ require('./app/routes/venta.routes')(app);
 require('./app/routes/producto.routes')(app);
 require('./app/routes/productoAlmacen.routes')(app);
 require('./app/routes/compra.routes')(app);
+require('./app/routes/almacen.routes')(app);
+
 
 
 

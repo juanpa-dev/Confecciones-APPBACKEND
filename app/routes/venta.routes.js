@@ -12,5 +12,7 @@ module.exports = function(app) {
     app.post("/api/venta", controller.create);
     app.get("/api/venta/:id", controller.findById);
     app.get("/api/venta/fecha", controller.findByFecha);
+    app.get("/api/venta/almacen/:id", controller.findByAlmacen);
+
 
 }

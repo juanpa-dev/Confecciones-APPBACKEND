@@ -1,33 +1,43 @@
 const db = require("../models");
-const venta = db.venta;
+const Venta = db.venta;
+const Producto = db.producto;
+const ProductoAlmacen = db.productoAlmacen;
 const ItemVenta = db.itemVenta;
 const Op = db.Sequelize.Op;
 
-exports.create = (req, res) => {
-    const { referencia, neto: neto, fecha, userid, almacenid } = req.body
-    let promesas = []
 
-    venta.create({ referencia: referencia, neto: neto, fecha: fecha, userid: userid, almacenid: almacenid })
-        .then(venta => {
-            let itemVenta = req.body.itemVenta
-            itemVenta.forEach(item => {
-                item.ventaid = venta.id;
-                let p = ItemVenta.create(item);
-                promesas.push(p);
-            });
-            Promise.all(promesas)
-                .then(() => {
-                    venta.dataValues.itemVenta = promesas;
-                    return res.json(venta);
-                })
-                .catch(err => {
-                    return res.status(500).send({ message: `${err.message} + no se pudo crear los items` });
-                });
+exports.create = async (req, res) => {
+    try {
+        let itemVenta = req.body.itemVenta
+        let itemsVentas = []
+        let ventar = await Venta.create({
+            neto: req.body.neto,
+            fecha: req.body.fecha,
+            userid: req.body.userid,
+            almacenid: req.body.almacenid
         })
-        .catch(err => {
-            return res.status(500).send({ message: `${err.message} + no se pudo crear la venta` });
-        });
-};
+        for (let i in itemVenta) {
+            itemVenta[i].ventaid = ventar.id
+            var item = await ItemVenta.create(itemVenta[i])
+            itemsVentas.push(item)
+            var producto = await Producto.findOne({
+                where: { referencia: itemVenta[i].productoid }
+            })
+            var productoAlmacen = await ProductoAlmacen.findOne({
+                where: { almacenid: req.body.almacenid, productoid: producto.referencia }
+            })
+            producto.cantidadDisponible = producto.cantidadDisponible - itemVenta[i].cantidad
+            producto = await producto.save()
+            productoAlmacen.cantidad = productoAlmacen.cantidad - itemVenta[i].cantidad
+            productoAlmacen = await productoAlmacen.save()
+        }
+        ventar.dataValues.itemVenta = itemsVentas
+        return res.json(ventar);
+    }
+    catch (err) {
+        res.status(500).send({ message: err.message });
+    }
+}
 
 
 exports.findById = (req, res) => {
@@ -46,6 +56,39 @@ exports.findById = (req, res) => {
                     return res.status(500).send({ message: `${err.message} + no se encotraron los items` })
                 })
         })
+}
+
+exports.findByAlmacen = async (req, res) => {
+
+    try {
+        let resultado = []
+        promesasItems = []
+        let ventas = await Venta.findAll({
+            where: { almacenid: req.params.id }
+        })
+
+        ventas.forEach(result => {
+            venta = result.dataValues;
+            pv = ItemVenta.findAll({
+                where: { ventaid: venta.id }
+            });
+            promesasItems.push(pv);
+        });
+
+        items = await Promise.all(promesasItems);
+
+        let i = 0;
+        //A cada venta le agrega su lista de items
+        resultado = ventas.map(venta => {
+            itemsVenta = items[i];
+            venta.dataValues.itemVenta = itemsVenta;
+            i++;
+            return venta;
+        });
+        return res.json(resultado);
+    } catch (err) {
+        return res.status(500).send({ message: err.message });
+    }
 }
 
 exports.findByFecha = (req, res) => {
