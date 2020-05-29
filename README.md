@@ -62,20 +62,13 @@ Con la siguiente url
 >localhost:3000/api/compra/
 
 ## Delete
-Se consume con metodo DELETE enviando en el body el siguente json
-```json
-{
-	"almacenid":"1"
-}
-```
-Con la siguiente url
+Se consume con metodo DELETE Con la siguiente url
 >localhost:3000/api/compra/id/:id
 
 ## DeleteItem
 Se consume con metodo DELETE enviando en el body el siguente json
 ```json
 {
-	"almacenid":"1",
 	"compraid":"81",
 	"productoid":"548asd88" 
 	
@@ -123,7 +116,6 @@ Se consume con metodo PUT enviando en el body el siguente json
     "neto":400,
     "fecha": "07/10/1999",
     "userid": 1,
-    "almacenid": 1,
     "itemCompra": [
         {
             "precioUnitario": 5,
