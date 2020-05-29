@@ -13,6 +13,10 @@ module.exports = (sequelize, Sequelize) => {
         fecha: {
             type: Sequelize.DATE,
             allowNull: false,
+        },
+        almacenId:{
+            type: Sequelize.STRING,
+            allowNull: false,
         }
     });
 

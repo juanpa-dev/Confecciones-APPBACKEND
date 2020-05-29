@@ -12,7 +12,8 @@ exports.create = async (req, res) => {
         let compra = await Compra.create({
             neto: req.body.neto,
             fecha: req.body.fecha,
-            userid: req.body.userid
+            userid: req.body.userid,
+            almacenId: req.body.almacenid
         })
         for (let i in itemCompra) {
             itemCompra[i].compraid = compra.id
@@ -56,7 +57,7 @@ exports.delete = async (req, res) => {
                 where: { referencia: itemCompra[i].productoid }
             })
             var productoAlmacen = await ProductoAlmacen.findOne({
-                where: { almacenid: req.body.almacenid, productoid: producto.referencia }
+                where: { almacenid: compra.almacenId, productoid: producto.referencia }
             })
             producto.cantidadDisponible = producto.cantidadDisponible - itemCompra[i].cantidad
             producto = await producto.save()
@@ -90,7 +91,7 @@ exports.deleteItem = async (req, res) => {
         )
         var productoAlmacen = await ProductoAlmacen.findOne(
             {
-                where: { almacenid: req.body.almacenid, productoid: req.body.productoid }
+                where: { almacenid: compra.almacenId, productoid: req.body.productoid }
             }
         )
         producto.cantidadDisponible = producto.cantidadDisponible - itemCompra.cantidad
@@ -259,7 +260,7 @@ exports.update = async (req, res) => {
             )
             var productoAlmacen = await ProductoAlmacen.findOne(
                 {
-                    where: { almacenid: req.body.almacenid, productoid: producto.referencia }
+                    where: { almacenid: compra.almacenId, productoid: producto.referencia }
                 }
             )
             producto.cantidadDisponible = producto.cantidadDisponible - itemCompra.cantidad + item[i].cantidad
