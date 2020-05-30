@@ -109,3 +109,59 @@ exports.findByFecha = (req, res) => {
             return res.status(500).send({ message: err.message })
         })
 }
+
+exports.update = async (req, res) => {
+    try {
+        let itemsVentas = []
+        var itemsNuevos = req.body.itemVenta
+        var itemsViejos = await ItemVenta.findAll({
+            where: {ventaid: req.body.ventaid}
+        }
+        )
+        itemsViejos = itemsViejos
+        for (let i in itemsViejos) {
+            //Actualizar exitencias
+            var producto = await Producto.findOne({
+                where: { referencia: itemsViejos[i].productoid }
+            })
+            var productoAlmacen = await ProductoAlmacen.findOne({
+                where: { almacenid: req.body.almacenid, productoid: producto.referencia }
+            })
+            producto.cantidadDisponible = producto.cantidadDisponible + itemsViejos[i].cantidad
+            producto = await producto.save()
+            productoAlmacen.cantidad = productoAlmacen.cantidad + itemsViejos[i].cantidad
+            productoAlmacen = await productoAlmacen.save()
+            //Eliminar itemVenta
+            ItemVenta.destroy({
+                where: {
+                    ventaid: req.body.ventaid
+                }
+            })
+        }
+        //Agregar nuevos items
+        for (let i in itemsNuevos) {
+            itemsNuevos[i].ventaid = req.body.ventaid
+            var item = await ItemVenta.create(itemsNuevos[i])
+            itemsVentas.push(item)
+            var producto = await Producto.findOne({
+                where: { referencia: itemsNuevos[i].productoid }
+            })
+            var productoAlmacen = await ProductoAlmacen.findOne({
+                where: { almacenid: req.body.almacenid, productoid: producto.referencia }
+            })
+            producto.cantidadDisponible = producto.cantidadDisponible - itemsNuevos[i].cantidad
+            producto = await producto.save()
+            productoAlmacen.cantidad = productoAlmacen.cantidad - itemsNuevos[i].cantidad
+            productoAlmacen = await productoAlmacen.save()
+        }
+        let venta = await Venta.findOne({
+            where: {id: req.body.ventaid}
+        })
+        venta.dataValues.itemVenta = itemsVentas
+        venta.dataValues.neto = req.body.neto
+        return res.json(venta);
+    }
+    catch (err) {
+        res.status(500).send({ message: err.message });
+    }
+}
