@@ -86,14 +86,7 @@ Se consume con metodo GET con la siguiente url
 >localhost:3000/api/compra/id/:id
 
 ## FindByFecha
-Se consume con metodo GET enviando en el body el siguente json
-```json
-{
-	"startDate":"1999/07/07",
-	"endDate":"1999/07/08 "
-}
-```
-Con la siguiente url
+Se consume con metodo GET Con la siguiente url
 >localhost:3000/api/compra/fecha
 
 ## FindByUser
