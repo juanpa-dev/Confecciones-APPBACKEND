@@ -13,6 +13,7 @@ module.exports = function(app) {
     app.get("/api/venta/:id", controller.findById);
     app.get("/api/venta/fecha", controller.findByFecha);
     app.get("/api/venta/almacen/:id", controller.findByAlmacen);
+    app.put("/api/venta", controller.update);
 
 
 }

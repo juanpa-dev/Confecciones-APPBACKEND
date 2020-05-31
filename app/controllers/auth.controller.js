@@ -12,6 +12,7 @@ exports.signup = (req, res) => {
     // Save User to Database
     User.create({
             username: req.body.username,
+            name: req.body.name,
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 8),
             enable: req.body.enable,
@@ -84,6 +85,7 @@ exports.signin = (req, res) => {
                 res.status(200).send({
                     id: user.id,
                     username: user.username,
+                    name: user.name,
                     email: user.email,
                     enable: user.enable,
                     avatar: user.avatar,
@@ -102,6 +104,7 @@ exports.editUser = (req, res) => {
             username: req.body.username,
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 8),
+            avatar: req.body.avatar,
             enable: req.body.enable
         }, {
             where: {
@@ -115,4 +118,23 @@ exports.editUser = (req, res) => {
             res.status(500).send({ message: err.message });
         });
 
-}
+};
+
+exports.findAll = (req, res) => {
+    const username = req.query.username;
+    var condition = username ? {
+        username: {
+            [Op.like]: `%${username}%`
+        }
+    } : null;
+
+    User.findAll({ where: condition })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving USER."
+            });
+        });
+};

@@ -1,4 +1,5 @@
 const controller = require("../controllers/compra.controller");
+const { authJwt } = require("../middleware");
 
 module.exports = function(app) {
     app.use(function(req, res, next) {
