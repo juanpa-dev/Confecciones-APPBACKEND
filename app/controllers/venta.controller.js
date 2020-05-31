@@ -94,7 +94,7 @@ exports.findByAlmacen = async (req, res) => {
 exports.findByFecha = (req, res) => {
     let startDate = req.body.startDate;
     let endDate = req.body.endDate;
-    venta.findAll({
+    Venta.findAll({
         where: {
             fecha: {
                 [Op.between]: [startDate, endDate]
