@@ -41,7 +41,7 @@ exports.create = async (req, res) => {
 
 
 exports.findById = (req, res) => {
-    venta.findOne({
+    Venta.findOne({
         where: { id: req.params.id }
     })
         .then(venta => {
