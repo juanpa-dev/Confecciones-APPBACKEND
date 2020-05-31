@@ -124,14 +124,18 @@ exports.deleteAll = async(req, res) => {
 }
 exports.findById = async(req, res) => {
     try {
+        let compras = []
         let compra = await Compra.findOne({
             where: { id: req.params.id }
         })
         let itemCompra = await ItemCompra.findAll({
             where: { compraid: req.params.id }
         })
-        compra.dataValues.itemCompra = itemCompra
-        return res.json(compra);
+        if (compra) {
+            compra.dataValues.itemCompra = itemCompra
+            compras.push(compra)
+        }
+        return res.json(compras);
     } catch (err) {
         res.status(500).send({ message: err.message });
     }
@@ -197,7 +201,9 @@ exports.findByProducto = async(req, res) => {
         let itemCompra = await ItemCompra.findAll({
             where: { productoid: req.params.id }
         })
+        console.log("Edurado es una pendeja")
         for (let i in itemCompra) {
+
             var c = await Compra.findOne({
                 where: { id: itemCompra[i].compraid }
             })
