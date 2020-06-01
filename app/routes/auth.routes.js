@@ -24,6 +24,7 @@ module.exports = function(app) {
 
     app.get("/api/auth/users", controller.findAll);
 
-    app.put("/api/user/edituser", controller.editUser);
+    app.put("/api/user/users/:id", controller.update);
 
+    app.get("/api/auth/users/:id", controller.findOne);
 }

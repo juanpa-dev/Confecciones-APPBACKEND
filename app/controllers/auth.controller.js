@@ -120,6 +120,34 @@ exports.editUser = (req, res) => {
 
 };
 
+
+
+exports.update = (req, res) => {
+    const id = req.params.id;
+
+    User.update(req.body, {
+            where: { id: id }
+        })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "Tutorial was updated successfully."
+                });
+            } else {
+                res.send({
+                    message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found or req.body is empty!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating Tutorial with id=" + id
+            });
+        });
+};
+
+
+
 exports.findAll = (req, res) => {
     const username = req.query.username;
     var condition = username ? {
@@ -135,6 +163,19 @@ exports.findAll = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message: err.message || "Some error occurred while retrieving USER."
+            });
+        });
+};
+exports.findOne = (req, res) => {
+    const id = req.params.id;
+
+    User.findByPk(id)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Some error occurred while retrieving USER"
             });
         });
 };
