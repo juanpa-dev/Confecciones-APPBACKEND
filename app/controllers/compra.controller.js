@@ -5,7 +5,7 @@ const Producto = db.producto
 const ProductoAlmacen = db.productoAlmacen
 const Op = db.Sequelize.Op;
 
-exports.create = async (req, res) => {
+exports.create = async(req, res) => {
     try {
         let itemCompra = req.body.itemCompra
         let itemsCompras = []
@@ -39,12 +39,11 @@ exports.create = async (req, res) => {
         }
         compra.dataValues.itemCompra = itemsCompras
         return res.json(compra);
-    }
-    catch (err) {
+    } catch (err) {
         res.status(500).send({ message: err.message });
     }
 }
-exports.delete = async (req, res) => {
+exports.delete = async(req, res) => {
     try {
         let compra = await Compra.findOne({
             where: { id: req.params.id }
@@ -67,33 +66,24 @@ exports.delete = async (req, res) => {
         compra.dataValues.itemCompra = itemCompra
         await compra.destroy()
         return res.send({ message: "Se elimino la compra identificada por el id: " + compra.id });
-    }
-    catch (err) {
+    } catch (err) {
         res.status(500).send({ message: err.message });
     }
 }
-exports.deleteItem = async (req, res) => {
+exports.deleteItem = async(req, res) => {
     try {
-        let itemCompra = await ItemCompra.findOne(
-            {
-                where: { compraid: req.body.compraid, productoid: req.body.productoid }
-            }
-        )
-        let compra = await Compra.findOne(
-            {
-                where: { id: req.body.compraid }
-            }
-        )
-        let producto = await Producto.findOne(
-            {
-                where: { referencia: req.body.productoid }
-            }
-        )
-        var productoAlmacen = await ProductoAlmacen.findOne(
-            {
-                where: { almacenid: compra.almacenId, productoid: req.body.productoid }
-            }
-        )
+        let itemCompra = await ItemCompra.findOne({
+            where: { compraid: req.body.compraid, productoid: req.body.productoid }
+        })
+        let compra = await Compra.findOne({
+            where: { id: req.body.compraid }
+        })
+        let producto = await Producto.findOne({
+            where: { referencia: req.body.productoid }
+        })
+        var productoAlmacen = await ProductoAlmacen.findOne({
+            where: { almacenid: compra.almacenId, productoid: req.body.productoid }
+        })
         producto.cantidadDisponible = producto.cantidadDisponible - itemCompra.cantidad
         producto = await producto.save()
         productoAlmacen.cantidad = productoAlmacen.cantidad - itemCompra.cantidad
@@ -102,15 +92,13 @@ exports.deleteItem = async (req, res) => {
         compra = await compra.save()
         await itemCompra.destroy()
         return res.send({ message: "Se elimino el producto de la compra identificada por el id: " + itemCompra.productoid });
-    }
-    catch (err) {
+    } catch (err) {
         res.status(500).send({ message: err.message });
     }
 }
-exports.deleteAll = async (req, res) => {
+exports.deleteAll = async(req, res) => {
     try {
-        let itemCompra = await ItemCompra.findAll({
-        })
+        let itemCompra = await ItemCompra.findAll({})
         for (let i in itemCompra) {
             var producto = await Producto.findOne({
                 where: { referencia: itemCompra[i].productoid }
@@ -130,31 +118,33 @@ exports.deleteAll = async (req, res) => {
         }
         await Compra.destroy({ truncate: { cascade: true } })
         return res.send({ message: "Se elimino todas las compras" });
-    }
-    catch (err) {
+    } catch (err) {
         res.status(500).send({ message: err.message });
     }
 }
-exports.findById = async (req, res) => {
+exports.findById = async(req, res) => {
     try {
+        let compras = []
         let compra = await Compra.findOne({
             where: { id: req.params.id }
         })
         let itemCompra = await ItemCompra.findAll({
             where: { compraid: req.params.id }
         })
-        compra.dataValues.itemCompra = itemCompra
-        return res.json(compra);
-    }
-    catch (err) {
+        if (compra) {
+            compra.dataValues.itemCompra = itemCompra
+            compras.push(compra)
+        }
+        return res.json(compras);
+    } catch (err) {
         res.status(500).send({ message: err.message });
     }
 }
-exports.findByFecha = async (req, res) => {
+exports.findByFecha = async(req, res) => {
     try {
         let itemCompra = []
-        let startDate = req.body.startDate
-        let endDate = req.body.endDate
+        let startDate = req.query.startDate
+        let endDate = req.query.endDate
         let compra = await Compra.findAll({
             where: {
                 fecha: {
@@ -169,12 +159,11 @@ exports.findByFecha = async (req, res) => {
             compra[i].dataValues.itemCompra = itemCompra
         }
         return res.json(compra)
-    }
-    catch (err) {
+    } catch (err) {
         res.status(500).send({ message: err.message });
     }
 }
-exports.findByUser = async (req, res) => {
+exports.findByUser = async(req, res) => {
     try {
         let compra = await Compra.findAll({
             where: { userid: req.params.user }
@@ -187,57 +176,48 @@ exports.findByUser = async (req, res) => {
         }
 
         return res.json(compra);
-    }
-    catch (err) {
+    } catch (err) {
         res.status(500).send({ message: err.message });
     }
 }
-exports.findAll = async (req, res) => {
+exports.findAll = async(req, res) => {
     try {
         let itemCompra = []
         let compra = await Compra.findAll({})
         for (let i in compra) {
-            itemCompra = await ItemCompra.findAll(
-                {
-                    where: { compraid: compra[i].id }
-                }
-            )
+            itemCompra = await ItemCompra.findAll({
+                where: { compraid: compra[i].id }
+            })
             compra[i].dataValues.itemCompra = itemCompra
         }
         return res.json(compra)
-    }
-    catch (err) {
+    } catch (err) {
         res.status(500).send({ message: err.message });
     }
 }
-exports.findByProducto = async (req, res) => {
+exports.findByProducto = async(req, res) => {
     try {
         let compra = []
-        let itemCompra = await ItemCompra.findAll(
-            {
-                where: { productoid: req.params.id }
-            }
-        )
+        let itemCompra = await ItemCompra.findAll({
+            where: { productoid: req.params.id }
+        })
+        console.log("Edurado es una pendeja")
         for (let i in itemCompra) {
-            var c = await Compra.findOne(
-                {
-                    where: { id: itemCompra[i].compraid }
-                }
-            )
-            c.dataValues.itemCompra = await ItemCompra.findAll(
-                {
-                    where: { compraid: c.dataValues.id }
-                }
-            )
+
+            var c = await Compra.findOne({
+                where: { id: itemCompra[i].compraid }
+            })
+            c.dataValues.itemCompra = await ItemCompra.findAll({
+                where: { compraid: c.dataValues.id }
+            })
             compra.push(c)
         }
         return res.json(compra)
-    }
-    catch (err) {
+    } catch (err) {
         res.status(500).send({ message: err.message });
     }
 }
-exports.update = async (req, res) => {
+exports.update = async(req, res) => {
     try {
         let item = req.body.itemCompra
         let compra = await Compra.findOne({
@@ -248,21 +228,15 @@ exports.update = async (req, res) => {
         compra.fecha = req.body.fecha
         compra.userid = req.body.userid
         for (let i in item) {
-            itemCompra = await ItemCompra.findOne(
-                {
-                    where: { compraid: compra.id, productoid: item[i].productoid }
-                }
-            )
-            var producto = await Producto.findOne(
-                {
-                    where: { referencia: item[i].productoid }
-                }
-            )
-            var productoAlmacen = await ProductoAlmacen.findOne(
-                {
-                    where: { almacenid: compra.almacenId, productoid: producto.referencia }
-                }
-            )
+            itemCompra = await ItemCompra.findOne({
+                where: { compraid: compra.id, productoid: item[i].productoid }
+            })
+            var producto = await Producto.findOne({
+                where: { referencia: item[i].productoid }
+            })
+            var productoAlmacen = await ProductoAlmacen.findOne({
+                where: { almacenid: compra.almacenId, productoid: producto.referencia }
+            })
             producto.cantidadDisponible = producto.cantidadDisponible - itemCompra.cantidad + item[i].cantidad
             producto = await producto.save()
             productoAlmacen.cantidad = productoAlmacen.cantidad - itemCompra.cantidad + item[i].cantidad
@@ -273,14 +247,11 @@ exports.update = async (req, res) => {
             itemCompra = itemCompra.save()
         }
         compra = await compra.save()
-        compra.dataValues.itemCompra = await ItemCompra.findAll(
-            {
-                where: { compraid: compra.id }
-            }
-        )
+        compra.dataValues.itemCompra = await ItemCompra.findAll({
+            where: { compraid: compra.id }
+        })
         return res.json(compra)
-    }
-    catch (err) {
+    } catch (err) {
         res.status(500).send({ message: err.message });
     }
 }
