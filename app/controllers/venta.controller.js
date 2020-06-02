@@ -157,6 +157,13 @@ exports.update = async (req, res) => {
         let venta = await Venta.findOne({
             where: {id: req.body.ventaid}
         })
+        await Venta.update({
+            neto: req.body.neto
+        }, {
+            where: { id: req.body.ventaid }
+        }).then(
+            (venta) => console.log(venta)
+        )
         venta.dataValues.itemVenta = itemsVentas
         venta.dataValues.neto = req.body.neto
         return res.json(venta);
