@@ -27,4 +27,6 @@ module.exports = function(app) {
     app.put("/api/auth/users/:id", controller.update);
 
     app.get("/api/auth/users/:id", controller.findOne);
+
+    app.delete("/api/auth/users/:id", controller.delete);
 }
