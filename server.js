@@ -35,7 +35,7 @@ const Role = db.role;
 
 db.sequelize.sync();
 
-initial();
+
 
 // simple route
 app.get("/", (req, res) => {
