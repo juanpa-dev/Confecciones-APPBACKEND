@@ -12,9 +12,9 @@
 ```
 > enable is 1 true or 0 false
 
-[ ] Test
-[ ] test 2
-
+[ ] A
+[x] B
+[ ] C
 ## Ruta https://confeccionesapp-back.herokuapp.com/api/auth/signin
 ```json
 {
