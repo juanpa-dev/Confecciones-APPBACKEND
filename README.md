@@ -1,5 +1,7 @@
 # Confecciones-APPBACKEND
-
+- [ ] Task 1
+- [ ] Task 2
+- [ ] Task 3
 ## Ruta https://confeccionesapp-back.herokuapp.com/api/auth/signup
 ```json
 {
